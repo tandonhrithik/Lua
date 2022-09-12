@@ -153,3 +153,49 @@ if the number has a fractional part, lua raises an error.
 
 Another way to force a number to integer is to use math.tointeger
 if there is a fractional part, we get nil. if we go out of range, we still get nil
+
+# Strings
+
+Strings are immutable sequences of bytes in Lua. Lua handles the memory management of strings for us.
+
+We can get the length of string by using #. 
+print(#"Hello")
+
+We can concatenate two strings by using .. operator.
+"Hello" .. "World"
+
+Any numeric operation where lua finds a string, it converts the string to a number.
+Any operation, such as concatenation, where lua finds a number, it converts it into a string
+
+to convert number to sting, use tonumber(). We can also use toNumber("", base) to specify what base we want the number in. 
+
+to convert to string, use tostring() function.
+
+The String Library:
+string.rep("", num)   --> repeats "" num times
+string.reverse("")    --> reverse the line
+string.lower("")      --> to lower case
+string.upper("")      --> to upper case
+string.sub(s, i, j)   --> returns substring from ith to jth character
+                          inclusive
+sub can also be used with negative indices which start from -1 from end of the string.
+
+string.char()         --> returns character representation of ASCII
+string.byte()         --> returns ASCII representation of character
+string.byte("abc")    --> returns ASCII representation of first character
+string.byte("", i)    --> returns ASCII representation of ith character
+string.byte("", i, j) --> returns ASCII representation of all characters 
+                          between i and j
+string(s, 1,-1)       --> get list of codes of all characters in s
+This only works for strings smaller than 1MB. Lua limits stack size
+
+string. format can be used to convert to decimal, hex, string, float etc
+string.format("x = %d  y = %d", 10, 20)  --> x = 10  y = 20
+string.format("x = %x", 200)              --> x = c8
+string.format("x = 0x%X", 200)            --> x = 0xC8
+string.format("x = %f", 200)              --> x = 200.000000
+
+string.find(s, x)     --> returns initial and final positions of x in s
+string.gsub(s, x, y)  --> replaces all x in s with y. also returns  
+                          number of replacements made
+
