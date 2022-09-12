@@ -1,7 +1,7 @@
-# LUA
+
 @author Hrithik Tandon
 Notes from Programming in Lua 4ed 
-## Basics
+# Basics
 
 Each piece of code that Lua executes, such as a file or a single line in interactive mode, is called a chunk.
 
@@ -44,6 +44,112 @@ Lexical conventions:
 
 Lua Interpreter:
     It ignores the first line if marked as #
-    
+  
 
+# Numbers
 
+Numerals with decimal points are considered floating points. Otherwise, they are treated as integers
+
+both integers and float values have type "number":
+
+type(3)     --> number
+type(3.5)   --> number
+type(3.0)   --> number
+
+floats and integers with the same value are equal in lua.
+
+1 == 1.0      --> true
+-3 == -3.0    --> true
+0.2e3 == 200  --> true
+
+to distinguish between float and integers, use math.type.
+
+math.type(3)    -->Integer
+math.type(3.0)  -->float
+
+* Lua also supports floating point hexadecimal values
+
+0xff      -->255
+0xa.bp2   -->42.75
+
+Lua can also write in floating point representation using string.format("%a")
+
+string.format("%a", 419)        --> 0x1.a3p+8
+string.format("%a", 0.1)        --> 0x1.999999999ap-4
+
+This format isn't as friendly to readers but preserves full precision
+
+Arithmetic Operators
+
+If both operands are integers, then the answer is integer. Otherwise, for mixed operands, Lua converts integer to float.
+
+Division does not follow this rule because the division of two integers does not need to be an integer.
+
+3/2     --> 1.5
+
+For integer division, we also have //(floar division). It always rounds the quotient towards minus infinity. This follows the same rule as the general arithmetic operators.
+
+3//2    --> 1
+
+modulo can be defined as 
+    a % b == a - ((a // b) * b)
+
+For any given positive constant k,
+    the result of x % k is always in the range [0, K-1] even if x is negative
+
+Lua also supports exponentiation operator, denoted by caret(^).
+We can use x^0.5 to compute square root
+We can also use x^ (1/3) to compute cubic root etc
+
+Relational Operator:
+
+We also have several relational operators to use. 
+<, >, == , <= , >= , ~= 
+
+~= is the netfation of equality operators. 
+
+if the operands are of different types, then lua considers them not equal. string and number, for example. 
+
+Mathematical Library:
+
+the math library offers logarithms, constants such as pi and huge(largest representable number), trigonometric functions, random etc.
+
+All trigonometric functions work in radians and we can use deg and rad to convert between degrees and radians
+
+math.random can be used in three ways. Without arguments, it returns a psuedo random number in [0,1). With only one argument, it returns an integer between [1,n]. With two arguments l and  u, it returns a number between [l,u].
+
+we can set a seed for this method using randomseed function. Defualt seed is 1. We can also use ostime function as seed.
+
+Rounding functions:
+
+floor, ceil and modf. 
+floor rounds towards minus infinite. 
+ceil rounds toward plus infinite. 
+modf rounds towards zero. 
+
+modf returns the rounded value as well as the fractional part of the number as second result
+
+math.floor(3.3)   -->3
+math.ceil(-3.3)   --> -4
+math.ceil(3.3)    --> 4
+math.ceil(-3.3)   --> -3
+math.modf(3.3)    --> 3     0.3
+math.modf(-3.3)   --> -3    -0.3
+
+If the argument is an integer, it remains unaltered.
+
+Representation limits:
+
+Standard Lua uses 64-bit representation. If the values is smaller than mininteger or larger than maxinteger, overflow occurs and the result wraps around.
+
+For floating points, lua uses 64-bit representation, 11 of which are used for exponent. Double precision floats can represent numbers with roughly 16 significant decimal digits.
+
+Conversions:
+
+To convert an integer to float, we can simply add a 0.0 to it. 
+
+To convert float to integer, use |0
+if the number has a fractional part, lua raises an error.
+
+Another way to force a number to integer is to use math.tointeger
+if there is a fractional part, we get nil. if we go out of range, we still get nil
